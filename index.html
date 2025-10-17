@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthNorth - Votre santé en ligne</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #0066cc;
+        }
+
+        .btn {
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #0066cc;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0052a3;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #0066cc;
+            border: 2px solid #0066cc;
+        }
+
+        .btn-secondary:hover {
+            background: #e6f2ff;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #0066cc 0%, #004d99 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .search-box {
+            max-width: 600px;
+            margin: 2rem auto;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .search-box button {
+            padding: 1rem 2rem;
+        }
+
+        .features {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: #0066cc;
+            margin-bottom: 1rem;
+        }
+
+        .specialties {
+            background: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .specialties h2 {
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .specialty-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .specialty-item {
+            background: #f0f7ff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .specialty-item:hover {
+            background: #0066cc;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">🏥 HealthNorth</div>
+        <div class="nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="specialistes.html">Trouver un spécialiste</a>
+            <a href="connexion.html" class="btn btn-secondary">Connexion</a>
+            <a href="inscription.html" class="btn btn-primary">Inscription</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Prenez rendez-vous avec un professionnel de santé</h1>
+        <p>Trouvez et consultez rapidement un médecin près de chez vous</p>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Spécialité, médecin, ville...">
+            <button class="btn btn-primary" onclick="searchSpecialists()">Rechercher</button>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="feature-card">
+            <div class="feature-icon">📅</div>
+            <h3>Prise de rendez-vous</h3>
+            <p>Réservez en ligne 24h/24, 7j/7 avec confirmation immédiate</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔍</div>
+            <h3>Large choix de praticiens</h3>
+            <p>Accédez à des milliers de professionnels de santé dans votre région</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">⭐</div>
+            <h3>Avis vérifiés</h3>
+            <p>Consultez les avis des patients pour faire le meilleur choix</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h3>Données sécurisées</h3>
+            <p>Vos informations médicales sont protégées et confidentielles</p>
+        </div>
+    </section>
+
+    <section class="specialties">
+        <h2>Nos spécialités</h2>
+        <div class="specialty-grid">
+            <div class="specialty-item" onclick="searchBySpecialty('Généraliste')">👨‍⚕️ Généraliste</div>
+            <div class="specialty-item" onclick="searchBySpecialty('Dentiste')">🦷 Dentiste</div>
+            <div class="specialty-item" onclick="searchBySpecialty('Dermatologue')">🩺 Dermatologue</div>
+            <div class="specialty-item" onclick="searchBySpecialty('Cardiologue')">❤️ Cardiologue</div>
+            <div class="specialty-item" onclick="searchBySpecialty('Pédiatre')">👶 Pédiatre</div>
+            <div class="specialty-item" onclick="searchBySpecialty('Gynécologue')">🤰 Gynécologue</div>
+            <div class="specialty-item" onclick="searchBySpecialty('Ophtalmologue')">👁️ Ophtalmologue</div>
+            <div class="specialty-item" onclick="searchBySpecialty('ORL')">👂 ORL</div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 HealthNorth - Tous droits réservés</p>
+    </footer>
+
+    <script>
+        function searchSpecialists() {
+            const searchTerm = document.getElementById('searchInput').value;
+            window.location.href = `specialistes.html?search=${encodeURIComponent(searchTerm)}`;
+        }
+
+        function searchBySpecialty(specialty) {
+            window.location.href = `specialistes.html?search=${encodeURIComponent(specialty)}`;
+        }
+
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchSpecialists();
+            }
+        });
+    </script>
+</body>
+</html>

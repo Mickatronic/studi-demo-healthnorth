@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trouver un spécialiste - HealthNorth</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-logout {
+            background: #dc3545;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .search-section {
+            background: linear-gradient(135deg, #0066cc 0%, #004d99 100%);
+            padding: 2rem;
+            color: white;
+        }
+
+        .search-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .search-container h1 {
+            margin-bottom: 1.5rem;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 10px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            font-size: 1rem;
+            border-radius: 6px;
+        }
+
+        .search-box input:focus {
+            outline: none;
+        }
+
+        .search-box button {
+            padding: 0.8rem 2rem;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .search-box button:hover {
+            background: #0052a3;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .results-count {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .specialists-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .specialist-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .specialist-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .specialist-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0066cc, #004d99);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        .specialist-info {
+            flex: 1;
+        }
+
+        .specialist-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+
+        .specialist-specialty {
+            color: #0066cc;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .specialist-details {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .specialist-details div {
+            margin-bottom: 0.3rem;
+        }
+
+        .specialist-actions {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .tarif {
+            background: #e6f2ff;
+            color: #0066cc;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .btn-appointment {
+            background: #0066cc;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .btn-appointment:hover {
+            background: #0052a3;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 12px;
+        }
+
+        .no-results h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .specialist-card {
+                flex-direction: column;
+            }
+
+            .specialist-actions {
+                flex-direction: row;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">🏥 HealthNorth</a>
+        <div class="nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="specialistes.html">Trouver un spécialiste</a>
+            <div id="userSection"></div>
+        </div>
+    </nav>
+
+    <section class="search-section">
+        <div class="search-container">
+            <h1>Trouvez votre spécialiste</h1>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Spécialité, nom, ville...">
+                <button onclick="searchSpecialists()">🔍 Rechercher</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="content">
+        <div class="results-header">
+            <div class="results-count" id="resultsCount">Chargement...</div>
+        </div>
+
+        <div id="specialistsList" class="specialists-grid">
+            <div class="loading">Chargement des spécialistes...</div>
+        </div>
+    </div>
+
+    <script>
+        // Vérifier si l'utilisateur est connecté
+        function checkAuth() {
+            const patient = sessionStorage.getItem('patient');
+            const userSection = document.getElementById('userSection');
+            
+            if (patient) {
+                const patientData = JSON.parse(patient);
+                userSection.innerHTML = `
+                    <div class="user-info">
+                        <span>Bonjour, ${patientData.prenom}</span>
+                        <button class="btn-logout" onclick="logout()">Déconnexion</button>
+                    </div>
+                `;
+            } else {
+                userSection.innerHTML = `
+                    <a href="connexion.html">Connexion</a>
+                    <a href="inscription.html">Inscription</a>
+                `;
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('patient');
+            window.location.href = 'index.html';
+        }
+
+        // Charger les spécialistes
+        function loadSpecialists(searchTerm = '') {
+            const url = searchTerm 
+                ? `http://localhost/test/api/specialiste.php/specialistes?search=${encodeURIComponent(searchTerm)}`
+                : 'http://localhost/test/api/specialiste.php/specialistes';
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    displaySpecialists(data);
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    document.getElementById('specialistsList').innerHTML = `
+                        <div class="no-results">
+                            <h3>Erreur de chargement</h3>
+                            <p>Impossible de charger les spécialistes. Veuillez réessayer.</p>
+                        </div>
+                    `;
+                });
+        }
+
+        function displaySpecialists(specialists) {
+            const container = document.getElementById('specialistsList');
+            const resultsCount = document.getElementById('resultsCount');
+            
+            if (!specialists || specialists.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <h3>Aucun spécialiste trouvé</h3>
+                        <p>Essayez de modifier vos critères de recherche</p>
+                    </div>
+                `;
+                resultsCount.textContent = '0 spécialiste trouvé';
+                return;
+            }
+
+            resultsCount.textContent = `${specialists.length} spécialiste${specialists.length > 1 ? 's' : ''} trouvé${specialists.length > 1 ? 's' : ''}`;
+
+            container.innerHTML = specialists.map(specialist => `
+                <div class="specialist-card">
+                    <div class="specialist-photo">👨‍⚕️</div>
+                    <div class="specialist-info">
+                        <div class="specialist-name">Dr ${specialist.prenom} ${specialist.nom}</div>
+                        <div class="specialist-specialty">${specialist.specialite}</div>
+                        <div class="specialist-details">
+                            <div>📍 ${specialist.adresse}, ${specialist.ville}</div>
+                            ${specialist.telephone ? `<div>📞 ${specialist.telephone}</div>` : ''}
+                            ${specialist.email ? `<div>📧 ${specialist.email}</div>` : ''}
+                        </div>
+                    </div>
+                    <div class="specialist-actions">
+                        ${specialist.tarif ? `<div class="tarif">${specialist.tarif} €</div>` : ''}
+                        <button class="btn-appointment" onclick="bookAppointment(${specialist.id})">
+                            Prendre RDV
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function searchSpecialists() {
+            const searchTerm = document.getElementById('searchInput').value;
+            loadSpecialists(searchTerm);
+        }
+
+        function bookAppointment(specialistId) {
+            const patient = sessionStorage.getItem('patient');
+            
+            if (!patient) {
+                alert('Vous devez être connecté pour prendre rendez-vous');
+                window.location.href = 'connexion.html';
+                return;
+            }
+            
+            alert(`Rendez-vous avec le spécialiste ID: ${specialistId}\nFonctionnalité à développer`);
+        }
+
+        // Gestion de la recherche au chargement
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchSpecialists();
+            }
+        });
+
+        // Récupérer le paramètre de recherche de l'URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchParam = urlParams.get('search');
+
+        if (searchParam) {
+            document.getElementById('searchInput').value = searchParam;
+            loadSpecialists(searchParam);
+        } else {
+            loadSpecialists();
+        }
+
+        checkAuth();
+    </script>
+</body>
+</html>
